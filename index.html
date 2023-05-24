@@ -1,0 +1,197 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Spatio-Temporal Graph Diffusion for
+    Text-Driven Human Motion Generation</title>
+  <meta name="description" content="Project page for Spatio-Temporal Graph Diffusion for
+  Text-Driven Human Motion Generation.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <meta charset="utf-8">
+
+  <!--Facebook preview-->
+  <!-- <meta property="og:image" content="https://imagine.enpc.fr/~monniert/DTIClustering/thumbnail.png"> -->
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="400">
+  <meta property="og:type" content="website"/>
+  <!-- <meta property="og:url" content="https://imagine.enpc.fr/~monniert/DTIClustering/"/> -->
+  <meta property="og:title" content="STGDM"/>
+  <meta property="og:description" content="Project page for Spatio-Temporal Graph Diffusion for
+  Text-Driven Human Motion Generation."/>
+
+  <!--Twitter preview-->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="STGDM" />
+  <meta name="twitter:description" content="Project page for Spatio-Temporal Graph Diffusion for
+  Text-Driven Human Motion Generation."/>
+  <!-- <meta name="twitter:image" content="https://imagine.enpc.fr/~monniert/DTIClustering/thumbnail_twitter.png"> -->
+
+  <!--Style-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container" style="text-align:center; padding:2rem 15px">
+  <div class="row" style="text-align:center">
+    <h1>Spatio-Temporal Graph Diffusion for
+      Text-Driven Human Motion Generation</h1>
+    <h4>BMVC 2023</h4>
+  </div>
+
+  <div class="container" style="text-align:center; padding:1rem">
+  <h3 style="text-align:center; padding-top:1rem">
+    <a class="label label-info" href="">Paper</a>
+    <a class="label label-info" href="">Code</a>
+  </h3>
+</div>
+
+<div class="container">
+  <h3>Abstract</h3>
+  <hr/>
+  <p>
+    Text-based human motion generation is challenging due to the complexity and context-dependency of natural human motions. In recent years, an increasing number of studies have focused on using transformer-based diffusion models to tackle this issue. However, an over-reliance on transformers has resulted in a lack of adequate detail in the generated motions. This study proposes a novel graph network-based diffusion model to address this challenging problem. Specifically, we use spatio-temporal graphs to capture local details for each node and an auxiliary transformer to aggregate the information across all nodes. In addition, the transformer is also used to process conditional global information that is difficult to handle with graph networks. Our model achieves competitive results on currently the largest dataset HumanML3D and outperforms existing diffusion models in terms of FID and diversity, demonstrating the advantages of graph neural networks in modeling human motion data.
+  </p>
+
+  <h3>Approach</h3>
+  <hr/>
+  <div class="row" style="text-align: center">
+    <div class="row" style="text-align: center">
+      <div class="col-xs-6">
+        <h4 style="margin-right: 20%"><u>STGMD Overview</u></h4>
+      </div>
+      <div class="col-xs-6">
+        <h4><u>Sampling Process</u></h4>
+      </div>
+  </div>
+  <div class="row" style="text-align: center">
+    <div class="col-xs-6">
+      <img src="resrc/net_1.jpg" alt="net_1.jpg" class="text-center" style="width: 60%; max-width: 900px">
+    </div>
+    <div class="col-xs-6">
+      <img src="resrc/net_2.jpg" alt="net_2.jpg" class="text-center" style="width: 90%; max-width: 900px; margin-top:
+      10px">
+    </div>
+  </div>
+  <div class="row" style="text-align: center">
+    <div class="col-xs-6">
+      <div style="width: 90%; max-width: 900px; padding-top:10px">
+        The input to the diffusion model consists of a spatio-
+        temporal graph <img src="http://latex.codecogs.com/svg.latex?x_t" alt="x_t" border="0"/>, the noising time step <img src="http://latex.codecogs.com/svg.latex?t" alt="t" border="0"/>, and the corresponding text description <img src="http://latex.codecogs.com/svg.latex?c" alt="c" border="0"/>. The
+        STG-UNet extracts the fine-grained local details of human motion, while the
+        frozen CLIP extracts text embeddings. In addition to aggregating local details, the trans-
+        former processes text embeddings <img src="http://latex.codecogs.com/svg.latex?c" alt="c" border="0"/> and time <img src="http://latex.codecogs.com/svg.latex?t" alt="t" border="0"/>. 
+        </p>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div style="width: 100%; max-width: 900px; padding-top:10px">
+        <p>Starting with random Gaussian noise, a text description <img src="http://latex.codecogs.com/svg.latex?c" alt="c" border="0"/> and diffusion step <img src="http://latex.codecogs.com/svg.latex?T" alt="T" border="0"/> , STGMD gradually anneals
+          the noise to a sample <img src="http://latex.codecogs.com/svg.latex?x^0" alt="x^0" border="0"/>. At each time step <img src="http://latex.codecogs.com/svg.latex?t" alt="t" border="0"/>, our model predicts the sample's initial state
+          <img src="http://latex.codecogs.com/svg.latex?x^0" alt="x^0" border="0"/> and then diffuses it back to <img src="http://latex.codecogs.com/svg.latex?x^{t-1}" alt="x^{t-1}" border="0"/>. By repeating these operations <img src="http://latex.codecogs.com/svg.latex?T" alt="T" border="0"/> times, the diffusion
+          process finally yields the sample <img src="http://latex.codecogs.com/svg.latex?x^0" alt="x^0" border="0"/>. The figure only shows one frame of the graph.</p>
+      </div>
+    </div>
+  </div>
+  <hr/>
+
+  <div class="row" style="text-align: center">
+    <div class="row" style="text-align: center">
+      <div class="col-xs-6">
+        <h4 style="margin-right: 20%"><u>STG-UNet Overview</u></h4>
+      </div>
+  </div>
+  <div class="row" style="text-align: center">
+    <div class="col-xs-6">
+      <img src="resrc/img_2.jpg" alt="img_2.jpg" class="text-center" style="width: 60%; max-width: 900px">
+    </div>
+  </div>
+  <div class="row" style="text-align: center">
+    <div class="col-xs-6">
+      <div style="width: 100%; max-width: 900px; padding-top:10px">
+        <p>STG-UNet Overview. The input is a spatio-temporal graph <img src="http://latex.codecogs.com/svg.latex?X=(V, A)" alt="X = (V, A)" border="0"/>, which
+          consists of a vertex matrix <img src="http://latex.codecogs.com/svg.latex?V" alt="V" border="0"/> and an adjacency matrix <img src="http://latex.codecogs.com/svg.latex?A" alt="A" border="0"/>. The STG-Block processes the
+          vertex matrix and transforms it into a graph representation. The pooling operation is then
+          applied to select nodes for the coarser scale. This process is repeated for a coarser scale. In
+          reverse, the unpooling operation refills the previously excluded nodes with empty nodes for
+          finer scales. Additionally, skip connections are employed to connect graph representations
+          on the same scale.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Results</h3>
+  <hr/>
+  <div class="row" style="text-align: center; padding-left:1rem; padding-right:1rem; padding-bottom:1rem;">
+    <h4><u>Quantitative results on the HumanML3D test set</u></h4>
+      <img src="resrc/table.jpg" alt="table.jpg" class="text-center" style="width: 100%; max-width: 1000px;">
+  </div>
+  <div class="row" style="text-align:center; padding-left:1rem; padding-right:1rem; padding-bottom:1rem;">
+    <h4><u>Visual Results</u></h4>
+      <img src="resrc/sample27_rep01.gif" alt="27.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <img src="resrc/sample27_rep02.gif" alt="27.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <img src="resrc/sample27_rep03.gif" alt="27.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <div style="width: 100%; max-width: 900px; padding-top:10px; margin: 0 auto; text-align: center;">
+        <p>A person is performing a rhythmic dance routine with a ribbon.</p>
+      </div>
+  </div>
+  
+  <div class="row" style="text-align: center">
+      <img src="resrc/sample03_rep00.gif" alt="03.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <img src="resrc/sample12_rep01.gif" alt="12.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <img src="resrc/sample33_rep00.gif" alt="33.gif" class="text-center" style="width: 25%; max-width: 1000px;
+      margin-top: 5px">
+      <div style="width: 100%; max-width: 900px; padding-top:10px">
+        <p>A person is practicing their figure skating routine.</p>
+      </div>
+      <div style="width: 100%; max-width: 900px; padding-top:10px">
+        <p>Someone is practicing their karate kicks.</p>
+      </div>
+      <div style="width: 100%; max-width: 900px; padding-top:10px">
+        <p>A person is doing a series of sit-ups on a stability ball.</p>
+      </div>
+  </div>
+
+  <!-- <h3>Resources</h3>
+  <hr/>
+  <div class="row" style="text-align: center">
+    <div class="col-xs-0 col-lg-0"></div>
+    <div class="col-xs-4 col-lg-4">
+      <h4>Paper</h4>
+      <a href="https://arxiv.org/abs/2006.11132" style="color:inherit">
+        <img src="resrc/paper.jpg" alt="paper.jpg" class="text-center" style="max-width:70%; border:0.15em solid;
+        border-radius:0.5em;"></a>
+    </div>
+    <div class="col-xs-4 col-lg-4">
+      <h4>Code</h4>
+      <a href="https://github.com/monniert/dti-clustering" style="color:inherit;">
+        <img src="resrc/github_repo.png" alt="github_repo.png" class="text-center"
+             style="max-width:70%; border:0.15em solid;border-radius:0.5em;"></a>
+    </div>
+    <div class="col-xs-4 col-lg-4">
+      <h4>Slides</h4>
+      <a href="dtic_long.pptx" style="color:inherit;">
+        <img src="resrc/slides.png" alt="slides.png" class="text-center"
+             style="max-width:70%; border:0.15em solid;border-radius:0.5em;"></a>
+    </div>
+    <div class="col-xs-0 col-lg-0"></div> -->
+  
+
+<div class="container" style="padding-top:3rem; padding-bottom:3rem">
+  <p style="text-align:center">
+  &#169; This webpage was in part inspired from this
+  <a href="https://github.com/monniert/project-webpage">template</a>.
+  </p>
+</div>
+
+</body>
+</html> 
